@@ -1,0 +1,10 @@
+Juan,Perez,10000001
+Maria,Gonzalez,10000002
+Carlos,Lopez,10000003
+Ana,Martinez,10000004
+Luis,Rodriguez,10000005
+Sofia,Herrera,10000006
+Pedro,Fernandez,10000007
+Laura,Gomez,10000008
+Diego,Silva,10000009
+Camila,Diaz,10000010

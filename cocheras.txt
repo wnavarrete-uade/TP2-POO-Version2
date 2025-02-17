@@ -1,0 +1,10 @@
+1,Categoría 1,true,10000001
+2,Categoría 2,false,10000002
+3,Categoría 1,true,10000003
+4,Categoría 3,false,10000004
+5,Categoría 2,true,10000005
+6,Categoría 1,false,10000006
+7,Categoría 3,true,10000007
+8,Categoría 2,false,10000008
+9,Categoría 1,true,10000009
+10,Categoría 3,false,10000010

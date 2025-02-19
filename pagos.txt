@@ -1,7 +1,1 @@
-
-
-Pago: $55000.0 | Fecha: 18/02/2025 | Inquilino: Juan Perez
-Pago: $56000.0 | Fecha: 18/02/2025 | Inquilino: Maria Gonzalez
-Pago: $67000.0 | Fecha: 18/02/2025 | Inquilino: Luis Rodriguez
-Pago: $48000.0 | Fecha: 18/02/2025 | Inquilino: Camila Diaz
-Pago: $57600.0 | Fecha: 18/02/2025 | Inquilino: Ana Martinez
+Pago por : $55650.0 | Fecha: 19/02/2025 | Inquilino: Maria Gonzalez

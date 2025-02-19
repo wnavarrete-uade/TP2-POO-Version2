@@ -1,10 +1,10 @@
-1,Base,true,10000001
+1,Base,false,10000001
 2,Base,true,10000002
 3,Base,false,10000003
-4,Base,true,10000004
-5,Base,true,10000005
+4,Base,false,10000004
+5,Base,false,10000005
 6,Base,false,10000006
 7,Superior,false,10000007
 8,Superior,false,10000008
 9,Base,false,10000009
-10,Superior,true,10000010
+10,Superior,false,10000010

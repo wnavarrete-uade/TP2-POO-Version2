@@ -1,62 +1,105 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * Clase Administrador que gestiona los pagos, reservas, cocheras e inquilinos.
+ */
 class Administrador extends Persona {
     private List<Pago> pagos;
     private List<Reserva> reservas;
     private List<Cochera> cocheras;
     private List<Inquilino> inquilinos;
+    private GestorArchivo gestorArchivo;
 
+    /**
+     * Constructor de Administrador.
+     * Inicializa las listas de pagos, reservas, cocheras e inquilinos.
+     * También carga los datos de inquilinos y cocheras desde archivos.
+     */
     public Administrador(String nombre, String apellido, String dni) {
-        super(nombre, apellido, dni);
+//        super(nombre, apellido, dni);
         this.pagos = new ArrayList<>();
         this.reservas = new ArrayList<>();
         this.cocheras = new ArrayList<>();
         this.inquilinos = new ArrayList<>();
-        cargarInquilinosDesdeArchivo("inquilinos.txt");
-        cargarCocherasDesdeArchivo("cocheras.txt");
+        this.gestorArchivo = new GestorArchivo();
+        cargarInquilinos("inquilinos.txt");
+        cargarCocheras("cocheras.txt");
     }
 
+    /**
+     * Registra un pago realizado por un inquilino.
+     * @param pago Objeto Pago que contiene la información del pago.
+     */
     public void registrarPago(Pago pago) {
         pagos.add(pago);
-        guardarEnArchivo("pagos.txt", pago.toString());
+        gestorArchivo.guardarEnArchivo("pagos.txt", pago.toString());
+        gestorArchivo.actualizarArchivo("cocheras.txt", pago.getCochera().getNumero(), 2, "true");
+        cargarCocheras("cocheras.txt");
         System.out.println("Pago registrado con éxito.");
     }
 
+    /**
+     * Registra una reserva realizada por un inquilino.
+     * @param reserva Objeto Reserva con la información de la reserva.
+     */
     public void reservarLugar(Reserva reserva) {
         reservas.add(reserva);
-        guardarEnArchivo("reservas.txt", reserva.toString());
+        gestorArchivo.guardarEnArchivo("reservas.txt", reserva.toString());
         System.out.println("Reserva registrada con éxito.");
     }
 
+    /**
+     * Cancela una reserva existente.
+     * @param nroReserva Número de reserva a cancelar.
+     */
     public void cancelarReserva(int nroReserva) {
-        reservas.removeIf(reserva -> reserva.getNroReserva() == nroReserva);
-        System.out.println("Reserva cancelada.");
+        System.out.println("nroReserva " + nroReserva);
+        eliminarReserva(nroReserva);
     }
 
+    /**
+     * Lista todas las cocheras registradas con su información relevante.
+     */
     public void listarCocheras() {
         System.out.println("Listado de Cocheras:");
         for (Cochera cochera : cocheras) {
-            System.out.println(cochera);
+            Inquilino inquilino = cochera.getInquilino();
+            System.out.println("Cochera N°" + cochera.getNumero() + " | Categoría: " + cochera.getCategoria() +
+                    " | Estado de pago: " + (cochera.isEstadoPago() ? "Pagado" : "Pendiente") +
+                    " | Inquilino: " + inquilino.getNombre() + " " + inquilino.getApellido() + " (DNI: " + inquilino.getDni() + ")");
         }
     }
 
+    /**
+     * Lista todos los pagos registrados.
+     */
     public void listarPagos() {
         System.out.println("Listado de Pagos:");
-        leerDesdeArchivo("pagos.txt");
+        gestorArchivo.leerDesdeArchivo("pagos.txt");
     }
 
+    /**
+     * Lista todas las reservas registradas.
+     */
     public void listarReservas() {
         System.out.println("Listado de Reservas:");
-        for (Reserva reserva : reservas) {
-            System.out.println(reserva);
-        }
+        gestorArchivo.leerDesdeArchivo("reservas.txt");
     }
 
-    public List<Inquilino> getInquilinos() {
+    /**
+     * Devuelve la lista de inquilinos registrados.
+     * @return Lista de inquilinos.
+     */
+    public List<Inquilino> listarInquilinos() {
         return inquilinos;
     }
 
+    /**
+     * Busca y devuelve una cochera asignada a un inquilino específico.
+     * @param inquilino Inquilino cuya cochera se desea encontrar.
+     * @return Cochera asignada al inquilino, o null si no tiene una asignada.
+     */
     public Cochera getCocheraPorInquilino(Inquilino inquilino) {
         for (Cochera cochera : cocheras) {
             if (cochera.getInquilino().equals(inquilino)) {
@@ -66,7 +109,11 @@ class Administrador extends Persona {
         return null;
     }
 
-    private void cargarInquilinosDesdeArchivo(String archivo) {
+    /**
+     * Carga los inquilinos desde un gestorArchivo de texto y los almacena en la lista de inquilinos.
+     * @param archivo Nombre del gestorArchivo que contiene los datos de los inquilinos.
+     */
+    private void cargarInquilinos(String archivo) {
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = br.readLine()) != null) {
@@ -76,11 +123,15 @@ class Administrador extends Persona {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error al leer el archivo de inquilinos: " + e.getMessage());
+            System.out.println("Error al leer el gestorArchivo de inquilinos: " + e.getMessage());
         }
     }
 
-    private void cargarCocherasDesdeArchivo(String archivo) {
+    /**
+     * Carga las cocheras desde un gestorArchivo de texto y las almacena en la lista de cocheras.
+     * @param archivo Nombre del gestorArchivo que contiene los datos de las cocheras.
+     */
+    private void cargarCocheras(String archivo) {
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = br.readLine()) != null) {
@@ -93,10 +144,15 @@ class Administrador extends Persona {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error al leer el archivo de cocheras: " + e.getMessage());
+            System.out.println("Error al leer el gestorArchivo de cocheras: " + e.getMessage());
         }
     }
 
+    /**
+     * Busca un inquilino en la lista de inquilinos a partir de su DNI.
+     * @param dni DNI del inquilino a buscar.
+     * @return Objeto Inquilino si se encuentra, null en caso contrario.
+     */
     private Inquilino buscarInquilinoPorDNI(String dni) {
         for (Inquilino inquilino : inquilinos) {
             if (inquilino.getDni().equals(dni)) {
@@ -106,23 +162,39 @@ class Administrador extends Persona {
         return null;
     }
 
-    private void guardarEnArchivo(String archivo, String contenido) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo, true))) {
-            bw.write(contenido);
-            bw.newLine();
-        } catch (IOException e) {
-            System.out.println("Error al guardar en archivo: " + e.getMessage());
-        }
-    }
+    private static void eliminarReserva(int numeroReserva) {
+        List<String> lineas = new ArrayList<>();
+        boolean reservaEncontrada = false;
 
-    private void leerDesdeArchivo(String archivo) {
-        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("reservas.txt"))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                System.out.println(linea);
+                if (!linea.startsWith("Reserva N°" + numeroReserva + " |")) {
+                    lineas.add(linea);
+                } else {
+                    reservaEncontrada = true;
+                }
             }
         } catch (IOException e) {
-            System.out.println("Error al leer el archivo: " + e.getMessage());
+            System.out.println("Error al leer el gestorArchivo de reservas: " + e.getMessage());
+            return;
         }
+
+        if (!reservaEncontrada) {
+            System.out.println("Error: No se encontró una reserva con el número " + numeroReserva);
+            return;
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("reservas.txt"))) {
+            for (String linea : lineas) {
+                bw.write(linea);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error al actualizar el gestorArchivo de reservas: " + e.getMessage());
+        }
+
+        System.out.println("Reserva N°" + numeroReserva + " eliminada con éxito.");
     }
 }
+

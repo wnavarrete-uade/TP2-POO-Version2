@@ -11,8 +11,12 @@ class Pago {
         this.cochera = cochera;
     }
 
+    public Cochera getCochera() {
+        return cochera;
+    }
+
     @Override
     public String toString() {
-        return "Pago: " + monto + " | Fecha: " + fecha + " | Inquilino: " + inquilino.getNombre() + inquilino.getApellido();
+        return "Pago por : $" + monto + " | Fecha: " + fecha + " | Inquilino: " + inquilino.getNombre() + " " + inquilino.getApellido();
     }
 }

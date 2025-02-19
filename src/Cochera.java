@@ -15,6 +15,19 @@ class Cochera {
         return inquilino;
     }
 
+    public int getNumero() {
+        return numero;
+    }
+
+    public boolean isEstadoPago() {
+        return estadoPago;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+
     @Override
     public String toString() {
         return "Cochera N°" + numero + " | Categoría: " + categoria + " | Estado de pago: " + (estadoPago ? "Pagado" : "Pendiente");

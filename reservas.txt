@@ -1,2 +1,5 @@
-Reserva N°1 | Fecha: 20/02/24 | Lugar: PARRILLA | Inquilino: Carlos
-Reserva N°1 | Fecha: 20/05/24 | Lugar: PARRILLA | Inquilino: Carlos
+Reserva N°1 | Fecha: 2025-03-30 | Lugar: SUM | Inquilino: Diego
+Reserva N°2 | Fecha: 2025-03-22 | Lugar: SUM | Inquilino: Juan
+Reserva N°4 | Fecha: 2025-05-24 | Lugar: PARRILLA | Inquilino: Juan Perez
+Reserva N°5 | Fecha: 2025-05-24 | Lugar: SUM | Inquilino: Laura Gomez
+Reserva N°6 | Fecha: 2025-03-06 | Lugar: PILETA | Inquilino: Ana Martinez

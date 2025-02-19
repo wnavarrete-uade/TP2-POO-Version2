@@ -17,7 +17,6 @@ class Administrador extends Persona {
      * También carga los datos de inquilinos y cocheras desde archivos.
      */
     public Administrador(String nombre, String apellido, String dni) {
-//        super(nombre, apellido, dni);
         this.pagos = new ArrayList<>();
         this.reservas = new ArrayList<>();
         this.cocheras = new ArrayList<>();
